@@ -38,7 +38,8 @@ const DATE_RE = /^\d{4}-\d{2}-\d{2}$/;
 
 export function isCalendarDate(s: unknown): s is string {
   if (typeof s !== "string" || !DATE_RE.test(s)) return false;
-  return new Date(`${s}T00:00:00Z`).toISOString().slice(0, 10) === s;
+  const date = new Date(`${s}T00:00:00Z`);
+  return !s.startsWith("0000-") && !Number.isNaN(date.getTime()) && date.toISOString().slice(0, 10) === s;
 }
 
 /** Все даты от from до to включительно. */

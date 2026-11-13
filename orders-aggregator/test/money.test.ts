@@ -12,6 +12,9 @@ describe("parseRub", () => {
     expect(() => parseRub("abc")).toThrow();
     expect(() => parseRub(null)).toThrow();
     expect(() => parseRub(-1)).toThrow();
+    expect(() => parseRub("")).toThrow();
+    expect(() => parseRub("   ")).toThrow();
+    expect(() => parseRub(Infinity)).toThrow();
   });
 });
 
@@ -23,6 +26,19 @@ describe("toKop / fromKop", () => {
 
   it("отбрасывает доли копейки", () => {
     expect(toKop(10.999)).toBe(1099);
+    expect(toKop(0.009)).toBe(0);
+    expect(toKop(0.0000001)).toBe(0);
+  });
+
+  it("не теряет копейки из-за умножения дробных чисел", () => {
+    for (let kop = 0; kop <= 10_000; kop++) {
+      expect(toKop(kop / 100)).toBe(kop);
+    }
+  });
+
+  it("не округляет суммы, которые уже нельзя хранить точно", () => {
+    expect(() => toKop(Number.MAX_SAFE_INTEGER)).toThrow();
+    expect(() => fromKop(Number.MAX_SAFE_INTEGER + 1)).toThrow();
   });
 
   it("копейки в рубли", () => {

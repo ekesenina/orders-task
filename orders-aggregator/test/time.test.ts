@@ -36,6 +36,10 @@ describe("даты", () => {
     expect(isCalendarDate("2026-02-28")).toBe(true);
     expect(isCalendarDate("2026-02-30")).toBe(false);
     expect(isCalendarDate("26-02-01")).toBe(false);
+    expect(isCalendarDate("2026-13-01")).toBe(false);
+    expect(isCalendarDate("2026-00-10")).toBe(false);
+    expect(isCalendarDate("0000-01-01")).toBe(false);
+    expect(isCalendarDate("2024-02-29")).toBe(true);
   });
 
   it("datesBetween включает границы", () => {
